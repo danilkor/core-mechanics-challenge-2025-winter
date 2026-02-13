@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://dy7xjf4lp4lx1"]
+
+[ext_resource type="Script" uid="uid://ch0jokosjp1oa" path="res://Scripts/Player.gd" id="1_rgh2o"]
+[ext_resource type="Texture2D" uid="uid://c7d1ip287n0i3" path="res://Assets/kenney_pico-8-platformer/Transparent/Tiles/tile_0105.png" id="2_pbw6q"]
+[ext_resource type="NavigationPolygon" uid="uid://ckjpo1y4ye77u" path="res://Navigation/MainMapPolygon.tres" id="3_v1gob"]
+[ext_resource type="PackedScene" uid="uid://b6p48wtm1t1q6" path="res://Nodes/Bullet.tscn" id="4_jw32o"]
+[ext_resource type="PackedScene" uid="uid://badqkirhbwrdb" path="res://Nodes/Wall.tscn" id="5_pbw6q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bo1nx"]
+
+[node name="Main" type="Node2D" unique_id=551058615]
+
+[node name="Player" type="CharacterBody2D" parent="." unique_id=1279844553]
+position = Vector2(878, 176)
+script = ExtResource("1_rgh2o")
+
+[node name="PlayerSprite" type="Sprite2D" parent="Player" unique_id=1052667736]
+texture_filter = 1
+scale = Vector2(3.3375626, 3.3375626)
+texture = ExtResource("2_pbw6q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player" unique_id=969536787]
+shape = SubResource("RectangleShape2D_bo1nx")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1884080507]
+navigation_polygon = ExtResource("3_v1gob")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D" unique_id=1994884867]
+vertices = PackedVector2Array(352, 162, 328, 229, 251, 200, 280, 157)
+affect_navigation_mesh = true
+
+[node name="Bullet" parent="." unique_id=1381815315 instance=ExtResource("4_jw32o")]
+position = Vector2(599, 305)
+scale = Vector2(16.046015, 16.046015)
+
+[node name="Wall" parent="." unique_id=1012657456 instance=ExtResource("5_pbw6q")]
+position = Vector2(294, 416)

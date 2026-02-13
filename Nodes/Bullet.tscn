@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://b6p48wtm1t1q6"]
+
+[ext_resource type="Texture2D" uid="uid://c2g75fsjrem0a" path="res://icon.svg" id="1_kf00t"]
+[ext_resource type="Script" uid="uid://cdtii1a54kbqr" path="res://Scripts/Bullet.gd" id="1_wfruj"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kry3j"]
+
+[node name="Bullet" type="Node2D" unique_id=1176630242]
+script = ExtResource("1_wfruj")
+
+[node name="CollisionDetection" type="Area2D" parent="." unique_id=872240887]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetection" unique_id=1362036458]
+shape = SubResource("CircleShape2D_kry3j")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1000145975]
+scale = Vector2(0.11188773, 0.11188773)
+texture = ExtResource("1_kf00t")
+
+[node name="Timer" type="Timer" parent="." unique_id=1951954164]
+
+[node name="WallDestruction" type="Area2D" parent="." unique_id=70109913]
+
+[node name="DestructionShape" type="CollisionPolygon2D" parent="WallDestruction" unique_id=5902839]
+polygon = PackedVector2Array(-3, -22, 4, -21, -1, -24)

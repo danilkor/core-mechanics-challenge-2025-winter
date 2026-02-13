@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://badqkirhbwrdb"]
+
+[ext_resource type="Script" uid="uid://0ulop1m4ndk6" path="res://Scripts/Wall.gd" id="1_cwx4h"]
+
+[node name="Wall" type="StaticBody2D" unique_id=1012657456]
+script = ExtResource("1_cwx4h")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=408542990]
+position = Vector2(3, 3)
+polygon = PackedVector2Array(-55, -85, 124, -88, 129, 135, -221, 144, -243, -331, -70, -338)
