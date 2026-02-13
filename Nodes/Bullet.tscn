@@ -23,3 +23,6 @@ texture = ExtResource("1_kf00t")
 
 [node name="DestructionShape" type="CollisionPolygon2D" parent="WallDestruction" unique_id=5902839]
 polygon = PackedVector2Array(-3, -22, 4, -21, -1, -24)
+
+[connection signal="rebuild" from="." to="." method="generate_wall_destruction_shape"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
