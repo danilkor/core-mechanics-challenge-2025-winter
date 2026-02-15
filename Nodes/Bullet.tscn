@@ -9,6 +9,8 @@
 script = ExtResource("1_wfruj")
 
 [node name="CollisionDetection" type="Area2D" parent="." unique_id=872240887]
+collision_layer = 16
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionDetection" unique_id=1362036458]
 shape = SubResource("CircleShape2D_kry3j")
@@ -20,9 +22,12 @@ texture = ExtResource("1_kf00t")
 [node name="Timer" type="Timer" parent="." unique_id=1951954164]
 
 [node name="WallDestruction" type="Area2D" parent="." unique_id=70109913]
+collision_layer = 0
+collision_mask = 8
 
 [node name="DestructionShape" type="CollisionPolygon2D" parent="WallDestruction" unique_id=5902839]
 polygon = PackedVector2Array(-3, -22, 4, -21, -1, -24)
 
 [connection signal="rebuild" from="." to="." method="generate_wall_destruction_shape"]
+[connection signal="body_entered" from="CollisionDetection" to="." method="_on_touch"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

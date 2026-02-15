@@ -43,6 +43,14 @@ click={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="outer_walls"
+2d_physics/layer_2="characters"
+2d_physics/layer_3="boosters"
+2d_physics/layer_4="walls"
+2d_physics/layer_5="bullets"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

@@ -27,8 +27,8 @@ func _physics_process(delta):
 
 func process_mouse_click(event):
 	var direction = (get_global_mouse_position()-position).normalized()
-	#shoot_bullet(direction)
-	get_node("/root/Main/Bullet").rebuild.emit()
+	shoot_bullet(direction)
+	#get_node("/root/Main/Bullet").rebuild.emit()
 
 
 #shooting 
