@@ -61,8 +61,6 @@ func generate_wall_destruction_shape() -> void:
 	new_polygon = Geometry2D.offset_polygon(new_polygon, 15)[0]
 	
 	wall_destruction_shape.polygon = new_polygon
-	print("Built")
-	print(wall_destruction_shape.polygon)
 	
 # time to live
 func _on_timer_timeout():

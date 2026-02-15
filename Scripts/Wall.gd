@@ -19,6 +19,11 @@ func _on_damage(damage_polygon: CollisionPolygon2D) -> void:
 		offset_polygon.append((vert+damage_polygon.global_position)-wall_shape.global_position)
 	
 	# do damage
-	var new_polygon = Geometry2D.clip_polygons(wall_shape.polygon, offset_polygon)[0]
-	wall_shape.set_deferred("polygon", new_polygon)
+	var new_polygons = Geometry2D.clip_polygons(wall_shape.polygon, offset_polygon)
+	wall_shape.set_deferred("polygon", new_polygons[0])
+	
+	# create new wall parts if there are some
+	if new_polygons.size() > 1:
+		#for new_polygon in pol
+		pass
 	#recalculate to check for small parts (later)
