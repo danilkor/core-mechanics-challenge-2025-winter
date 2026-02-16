@@ -1,13 +1,20 @@
 extends StaticBody2D
 class_name Wall
 @onready var wall_shape: CollisionPolygon2D = $CollisionPolygon2D
-
+@onready var wall_texture_polygon: Polygon2D = $TexturePolygon2D
 signal damage_wall(damage_polygon: CollisionPolygon2D)
-
+signal wall_changed(wall_polygon: PackedVector2Array)
 var wall_node = preload("res://Nodes/Wall.tscn")
+
+@export var min_area = 150
+
+
 
 func _ready() -> void:
 	damage_wall.connect(_on_damage)
+	wall_changed.connect(change_texture)
+	area_check()
+	change_texture()
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -19,6 +26,12 @@ func create_new_wall(polygon: PackedVector2Array):
 	new_wall.get_node("CollisionPolygon2D").polygon = polygon
 	new_wall.position = position
 	call_deferred("add_sibling", new_wall)
+
+func area_check():
+	var area = CustomGeometry2D.calculate_area(wall_shape.polygon)
+	print(area)
+	if area < min_area:
+		queue_free()
 
 func _on_damage(damage_polygon: CollisionPolygon2D) -> void:
 	# offset polygon
@@ -35,4 +48,11 @@ func _on_damage(damage_polygon: CollisionPolygon2D) -> void:
 		new_polygons.remove_at(0)
 		for new_pol in new_polygons:
 			create_new_wall(new_pol)
-	#recalculate to check for small parts (later)
+			
+	# check if the wall is too small now
+	call_deferred("area_check")
+	emit_signal.call_deferred("wall_changed")
+	
+
+func change_texture():
+	wall_texture_polygon.polygon = wall_shape.polygon
