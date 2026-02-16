@@ -5,21 +5,27 @@ class_name Wall
 signal damage_wall(damage_polygon: CollisionPolygon2D)
 signal wall_changed(wall_polygon: PackedVector2Array)
 var wall_node = preload("res://Nodes/Wall.tscn")
-
+var navigation_region: NavigationRegion2D
 @export var min_area = 150
-
-
+var wall_obstacle: NavigationObstacle2D
+var main_navigation_region: NavigationRegion2D
 
 func _ready() -> void:
+	area_check()
+	
 	damage_wall.connect(_on_damage)
 	wall_changed.connect(change_texture)
-	area_check()
-	change_texture()
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+	wall_changed.connect(change_obstacle)
+	
+	main_navigation_region = get_node("/root/Main/NavigationRegion2D")
+	
+	#create obstacle
+	wall_obstacle = NavigationObstacle2D.new()
+	wall_obstacle.position = position
+	wall_obstacle.affect_navigation_mesh = true
+	main_navigation_region.add_child(wall_obstacle)
+	emit_signal.call_deferred("wall_changed")
+	
 
 func create_new_wall(polygon: PackedVector2Array):
 	var new_wall: Wall = wall_node.instantiate()
@@ -31,6 +37,8 @@ func area_check():
 	var area = CustomGeometry2D.calculate_area(wall_shape.polygon)
 	print(area)
 	if area < min_area:
+		if wall_obstacle:
+			wall_obstacle.queue_free()
 		queue_free()
 
 func _on_damage(damage_polygon: CollisionPolygon2D) -> void:
@@ -56,3 +64,10 @@ func _on_damage(damage_polygon: CollisionPolygon2D) -> void:
 
 func change_texture():
 	wall_texture_polygon.polygon = wall_shape.polygon
+
+func change_obstacle():
+	wall_obstacle.vertices = wall_shape.polygon
+	if not main_navigation_region.is_baking():
+		main_navigation_region.bake_navigation_polygon()
+		
+		

@@ -46,3 +46,8 @@ texture = ExtResource("3_s2fw2")
 polygon = PackedVector2Array(-225, -300, -82, -311, -64, -67, 106, -68, 105, 102, -205, 114)
 uv = PackedVector2Array(-225, -300, -82, -311, -64, -67, 106, -68, 105, 102, -205, 114)
 script = SubResource("GDScript_oa81w")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="." unique_id=305453991]
+vertices = PackedVector2Array(-171, -173, -124, -177, -123, -97, -179, -93)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
