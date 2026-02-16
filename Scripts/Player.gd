@@ -33,7 +33,7 @@ func process_mouse_click(event):
 
 #shooting 
 func shoot_bullet(direction: Vector2) -> void:
-	var bullet = bullet_node.instantiate();
+	var bullet = bullet_node.instantiate()
 	bullet.my_direction = direction
 	bullet.position = position
 	main_node.add_child(bullet)

@@ -1,8 +1,10 @@
 extends StaticBody2D
-
+class_name Wall
 @onready var wall_shape: CollisionPolygon2D = $CollisionPolygon2D
 
 signal damage_wall(damage_polygon: CollisionPolygon2D)
+
+var wall_node = preload("res://Nodes/Wall.tscn")
 
 func _ready() -> void:
 	damage_wall.connect(_on_damage)
@@ -11,6 +13,12 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+
+func create_new_wall(polygon: PackedVector2Array):
+	var new_wall: Wall = wall_node.instantiate()
+	new_wall.get_node("CollisionPolygon2D").polygon = polygon
+	new_wall.position = position
+	call_deferred("add_sibling", new_wall)
 
 func _on_damage(damage_polygon: CollisionPolygon2D) -> void:
 	# offset polygon
@@ -24,6 +32,7 @@ func _on_damage(damage_polygon: CollisionPolygon2D) -> void:
 	
 	# create new wall parts if there are some
 	if new_polygons.size() > 1:
-		#for new_polygon in pol
-		pass
+		new_polygons.remove_at(0)
+		for new_pol in new_polygons:
+			create_new_wall(new_pol)
 	#recalculate to check for small parts (later)
