@@ -1,12 +1,21 @@
 extends StaticBody2D
 class_name Wall
+
+
+# ====== PARAMS ======
+@export var min_area = 150
+
+# ====== INNER REFERENCES ======
 @onready var wall_shape: CollisionPolygon2D = $CollisionPolygon2D
 @onready var wall_texture_polygon: Polygon2D = $TexturePolygon2D
+
+# ======= SIGNALS =======
 signal damage_wall(damage_polygon: CollisionPolygon2D)
 signal wall_changed(wall_polygon: PackedVector2Array)
+
+# ======= Destruction stuff======
 var wall_node = preload("res://Nodes/Wall.tscn")
 var navigation_region: NavigationRegion2D
-@export var min_area = 150
 var wall_obstacle: NavigationObstacle2D
 var main_navigation_region: NavigationRegion2D
 
@@ -27,12 +36,15 @@ func _ready() -> void:
 	emit_signal.call_deferred("wall_changed")
 	
 
+# Creates a new wall at the same place as this one with given Polygon
 func create_new_wall(polygon: PackedVector2Array):
 	var new_wall: Wall = wall_node.instantiate()
 	new_wall.get_node("CollisionPolygon2D").polygon = polygon
 	new_wall.position = position
 	call_deferred("add_sibling", new_wall)
 
+
+# Checks if the area is big enough to be considered a wall
 func area_check():
 	var area = CustomGeometry2D.calculate_area(wall_shape.polygon)
 	print(area)
@@ -41,6 +53,7 @@ func area_check():
 			wall_obstacle.queue_free()
 		queue_free()
 
+# On damage by bullet (for destrucction purposes)
 func _on_damage(damage_polygon: CollisionPolygon2D) -> void:
 	# offset polygon
 	var offset_polygon: PackedVector2Array
@@ -61,10 +74,11 @@ func _on_damage(damage_polygon: CollisionPolygon2D) -> void:
 	call_deferred("area_check")
 	emit_signal.call_deferred("wall_changed")
 	
-
+# Makes wall look like it's physics 
 func change_texture():
 	wall_texture_polygon.polygon = wall_shape.polygon
 
+# Makes navigation obstacle same as wall's physics
 func change_obstacle():
 	wall_obstacle.vertices = wall_shape.polygon
 	if not main_navigation_region.is_baking():

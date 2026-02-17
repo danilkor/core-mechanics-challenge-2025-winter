@@ -1,7 +1,5 @@
 extends "res://Scripts/Character.gd"
 
-var bullet_node = preload("res://Nodes/Bullet.tscn")
-@onready var main_node = get_node("/root/Main")
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super()
@@ -27,16 +25,5 @@ func _physics_process(delta):
 
 func process_mouse_click(event):
 	var direction = (get_global_mouse_position()-position).normalized()
-	shoot_bullet(direction)
+	shoot_bullet(direction, true)
 	#get_node("/root/Main/Bullet").rebuild.emit()
-
-
-#shooting 
-func shoot_bullet(direction: Vector2) -> void:
-	var bullet = bullet_node.instantiate()
-	bullet.my_direction = direction
-	bullet.position = position
-	main_node.add_child(bullet)
-	print("shooting bullet: ")
-	print("Direction: ")
-	print(direction)

@@ -21,7 +21,7 @@ signal rebuild
 
 # ==== EXTRA ======
 const wall_class = preload("res://Scripts/Wall.gd")
-
+var friendly: bool
 
 func _ready() -> void:
 	timer.wait_time = time_to_live

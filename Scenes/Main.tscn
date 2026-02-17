@@ -4,8 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://c7d1ip287n0i3" path="res://Assets/kenney_pico-8-platformer/Transparent/Tiles/tile_0105.png" id="2_pbw6q"]
 [ext_resource type="NavigationPolygon" uid="uid://ckjpo1y4ye77u" path="res://Navigation/MainMapPolygon.tres" id="3_v1gob"]
 [ext_resource type="PackedScene" uid="uid://badqkirhbwrdb" path="res://Nodes/Wall.tscn" id="5_pbw6q"]
+[ext_resource type="Script" uid="uid://d1hatxk38vfj2" path="res://Scripts/Enemy.gd" id="5_v1gob"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bo1nx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rgh2o"]
 
 [node name="Main" type="Node2D" unique_id=551058615]
 
@@ -26,9 +29,24 @@ shape = SubResource("RectangleShape2D_bo1nx")
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1884080507]
 navigation_polygon = ExtResource("3_v1gob")
 
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D" unique_id=1994884867]
-vertices = PackedVector2Array(352, 162, 328, 229, 251, 200, 280, 157)
-affect_navigation_mesh = true
-
 [node name="Wall" parent="." unique_id=1012657456 instance=ExtResource("5_pbw6q")]
 position = Vector2(294, 416)
+
+[node name="Enemy" type="CharacterBody2D" parent="." unique_id=1304602034]
+position = Vector2(52, 49)
+script = ExtResource("5_v1gob")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy" unique_id=1880849237]
+shape = SubResource("CircleShape2D_rgh2o")
+
+[node name="Polygon2D" type="Polygon2D" parent="Enemy" unique_id=1669779794]
+color = Color(0.8524747, 0.32398525, 0.33373213, 1)
+antialiased = true
+polygon = PackedVector2Array(-9, 4, -5, -4, -4, -6, -3, -8, 0, -7, 3, -8, 9, 4, 4, 9, 1, 4, -1, 4, -4, 9)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=674506954]
+position = Vector2(547, 303)
+
+[node name="Polygon2D" type="Polygon2D" parent="Node2D" unique_id=1964259205]
+color = Color(1, 0.91749996, 0.00999999, 0.9647059)
+polygon = PackedVector2Array(-6, 5, 6, 5, 6, -7, 0, -13, -6, -7)
